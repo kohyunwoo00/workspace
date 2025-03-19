@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace ="memberMapper">
+  	
+  	<!-- 
+  		나만의 웹애플리케이션을 만들어서
+  		github주소를 제출하고,
+  		평가날 발표(4월 7일)
+  		
+  		채점 : 자체 채점 -> 모두가 확인하고 점수 매기기
+  		
+ 		발표할 때 꼭 들어가야하는 내용
+ 		
+ 		0. 자기소개(기술 스택 뭐 썼는지)
+ 		1. 기능 시현
+ 		2. 가장 고생했던 문제 및 해결 절차
+ 		3. 설계의 주안점
+  	 -->
+  	<select id="login"
+  			parameterType="MemberDTO"
+  			resultType="memberDTO">
+  		SELECT
+  			   MEMBER_ID memberId
+  			 , MEMBER_Pw memberPw
+  			 , MEMBER_NAME memberName
+  			 , EMAIL
+  			 , ENROLL_DATE enrollDate
+  		  FROM	
+  		  	   KH_MEMBER 
+  		 WHERE
+  		 	   MEMBER_ID = #{ memberId }
+	 
+  	</select>
+  
+  	<!-- 아이디 중복체크용 -->
+  	<select id="checkId" parameterType="string" resultType="_int">
+  		SELECT
+  			   COUNT(*)
+  		  FROM
+  		  	   KH_MEMBER
+  		 WHERE
+  		 	  MEMBER_ID = #{memberId}
+  		
+  	</select>
+  	
+  	<!-- 회원가입용 -->
+  	<insert id="signUp" parameterType="memberDTO">
+  		INSERT
+  		  INTO
+  		       KH_MEMBER
+  		VALUES
+			   (
+			   #{memberId}
+			 , #{memberPw}
+			 , #{memberName}
+			 , #{email}
+			 , SYSDATE  
+			   )  	
+  	</insert>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </mapper>
