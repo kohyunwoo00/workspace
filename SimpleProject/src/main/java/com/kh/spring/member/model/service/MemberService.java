@@ -1,5 +1,7 @@
 package com.kh.spring.member.model.service;
 
+import javax.servlet.http.HttpSession;
+
 import com.kh.spring.member.model.dto.MemberDTO;
 
 // Member에서 작업할 내용 세팅
@@ -14,7 +16,7 @@ public interface MemberService { // <- 계약서
 	void signUp(MemberDTO member);
 	
 	// 회원정보수정    --> 조건 로그인 되어있음, 로그인 정보는 session에 담음
-	MemberDTO update(MemberDTO member);
+	void update(MemberDTO member, HttpSession session);
 	
 	// 회원탈퇴
 	int delete(MemberDTO member);

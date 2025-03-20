@@ -1,23 +1,15 @@
 package com.kh.spring.member.controller;
 
-import java.io.UnsupportedEncodingException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.member.model.dto.MemberDTO;
 import com.kh.spring.member.model.service.MemberService;
-import com.kh.spring.member.model.service.MemberServiceImpl;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -177,6 +169,75 @@ public class MemberController {
 		memberService.signUp(member);
 		return "main_page";
 	}
+	
+	@GetMapping("my-page")
+	public String mypage() {
+		return "member/my_page";
+	}
+	
+	
+	@PostMapping("update-member") // update-member는 my_page에서 확인
+	public String update(MemberDTO member, HttpSession session) {
+		// 1. Controller에서는 RequestMapping 에노테이션 및 요청 시 전달값이 잘 전달되는지 확인
+		/*
+		 * 1-1) 404오류 발생 : mapping값 잘못 적음
+		 * org.springframework.web.servlet.PageNotFound
+		 * - No mapping for POST / spring/update-member
+		 * 
+		 * 1-2) 405오류 발생 : 앞단에서 POST / GET으로 요청을 보내놓고 메소드와 맞지않은 에노테이션을 사용했을 때
+		 * 		             Request method 'POST' not supported
+		 * 
+		 * 1-3) 필드에 값이 들어오지 않는 경우 : 사실상 오타
+		 */
+		log.info("사용자가 입력한 값 : {}", member);
+		
+		// 2. 이번에 실행할 SQL문을 생각(코드 입력 전 SQL문을 먼저 작성)
+		// UPDATE문 => KH_MEMBER(MEMBER_ID)
+		// ID, PW, NAME, EMAIL, DATE
+		// 2-1) 매개변수 MemberDTO타입의 member 필드값
+		// 2-2) SessionScope에 loginMember 키값에 memberId필드값
+		// 넘겨주어야겠구나 +
+		
+		// 값들이 유효한 값인지 체크하기
+		// MemberID가 존재하는 아이디인지 체크하기
+		
+		// UPDATE KH_MEMBER SET MEMBER_NAME = 사용자가 입력한 이름, 
+		//						EMAIL = 사용자가 입력한 이메일
+		//				  WHERE MEMBER_ID = 사용자가 입력한 아이디
+		// UPDATE 수행의 결과 => PK를 조건으로 수행함 => 0 / 1
+		// 수행 성공했을 때 => my_page.jsp로 이동 + 갱신된 회원의 정보 출력
+		
+		// Id를 가지고 다시 조회 => login에서도 재활용
+		
+		// 수행 실패했을 때 => message를 담아서 error_page로 포워딩
+		// 예이 발생 =>  예외처리기도 위임
+		
+		 memberService.update(member, session);
+		 
+		 return "redirect:my-page";
+	}
+ 
+	// 탈퇴구현 숙제로하기
+	// 비밀번호 입력받음
+	// 비밀번호가 맞는지 검증 => 예외 발생시키기 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
