@@ -216,11 +216,16 @@ public class MemberController {
 		 
 		 return "redirect:my-page";
 	}
- 
+	
 	// 탈퇴구현 숙제로하기
 	// 비밀번호 입력받음
 	// 비밀번호가 맞는지 검증 => 예외 발생시키기 
-	
+	@PostMapping("delete-member")
+	public String delete(MemberDTO member, HttpSession session) {
+		//memberService.delete(member, session);
+		return "redirect:my-page";
+	}
+		
 	
 	
 	

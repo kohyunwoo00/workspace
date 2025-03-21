@@ -45,7 +45,7 @@
             <h2>게시글 작성하기</h2>
             <br>
 
-            <form id="enrollForm" method="post" action="boards" enctype="multipart/form-date"> <!-- multipart/form-date 필수  -->
+            <form id="enrollForm" method="post" action="boards" enctype="multipart/form-data"> <!-- multipart/form-data 필수  -->
                 <table align="center">
                     <tr>
                         <th><label for="title">제목</label></th>
@@ -74,7 +74,7 @@
                 <br>
 				
 				<script>
-					function abc(file){
+					function changeImage(file){
 						//console.log(file);
 						//console.log(file.files);
 						// files : 선택된 파일의 정보가 들어있는 객체
@@ -96,7 +96,7 @@
 								
 								//console.log(e.target.result);
 								const url = e.target.result;
-								imgEl = url;
+								imgEl.src = url;
 							}
 						} else {
 							const img = "https://th.bing.com/th/id/OIF.FZkwPw46VGfYc6MAz1mV9A?rs=1&pid=ImgDetMain";

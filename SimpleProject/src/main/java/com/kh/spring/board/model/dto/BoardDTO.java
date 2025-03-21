@@ -1,6 +1,9 @@
 package com.kh.spring.board.model.dto;
 
 import java.sql.Date;
+import java.util.List;
+
+import com.kh.spring.reply.model.dto.ReplyDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,10 +21,11 @@ import lombok.ToString;
 public class BoardDTO { // 데이터 전송 목적 페이지
 	private int boardNo;
 	private String boardTitle;
-	private String boardCountent;
+	private String boardContent;
 	private String boardWriter;
 	private int count;
 	private String createDate;
 	private String changeName;
 	private String status;
+	private List<ReplyDTO> replyList;
 }

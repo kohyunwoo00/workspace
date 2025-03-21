@@ -16,14 +16,14 @@ public class MemberS implements MemberService {
 
 	@Override
 	public MemberDTO update(MemberDTO member) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 
 	@Override
 	public int delete(MemberDTO member) {
-		// TODO Auto-generated method stub
+
 		return 0;
 	}
 

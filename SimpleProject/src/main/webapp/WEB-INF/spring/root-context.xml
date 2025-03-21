@@ -39,7 +39,7 @@
 	 	<constructor-arg ref="sqlSessionFactory"/>
 	 </bean>
 	 
-	 <mybatis-spring:scan base-package="com.kh.spring.member.model.dao"/>
+	 <mybatis-spring:scan base-package="com.kh.spring.member.model.dao, com.kh.spring.board.model.mapper"/>
 	 
 	 <!-- 파일업로드 관련 빈 등록 -->
 	 <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
