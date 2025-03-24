@@ -33,14 +33,18 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class BoardServiceImple implements BoardService{
 	private final BoardMapper boardMapper;
-	@Override
-	public void insertBoard(BoardDTO board, MultipartFile file, HttpSession session) {
-		
-		// 1. 권한 체크
+	
+	private void validateUser(HttpSession session, BoardDTO board) {
+	// 1. 권한 체크
 		MemberDTO loginMember = (MemberDTO)session.getAttribute("loginMember");
 		if(loginMember != null && !loginMember.getMemberId().equals(board.getBoardWriter())) {
 			throw new AuthenticationException("권한 없는 접근입니다");
 		}
+	}
+	
+	@Override
+	public void insertBoard(BoardDTO board, MultipartFile file, HttpSession session) {
+		
 		// 2. 유효성 검사
 		if(board.getBoardTitle() == null || board.getBoardTitle().trim().isEmpty() ||
 		   board.getBoardContent() == null || board.getBoardContent().trim().isEmpty() ||
@@ -49,6 +53,17 @@ public class BoardServiceImple implements BoardService{
 		}
 		
 		// 2_2)
+		/*
+		 * <, >, \, & 
+		 */
+		
+		String boardTitle = board.getBoardTitle().replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br>");
+		
+		String boardContent = board.getBoardContent().replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+													 .replaceAll("\n", "<br>");
+		
+		board.setBoardTitle(boardTitle);
+		board.setBoardContent(boardContent);
 		
 		// 3) 파일유무 체크 // 이름바꾸기 + 저장
 		if(!file.getOriginalFilename().isEmpty()) {
@@ -126,5 +141,23 @@ public class BoardServiceImple implements BoardService{
 	public void deleteBoard(int boardNo) {
 		
 	}
+	
+	@Override
+	public Map<String, Object> doSearch(Map<String, String> map){
+		// 
+		int searchedCount = boardMapper.searchedCount(map);
+		log.info("몇개 : {}", searchedCount);
+		
+		PageInfo pi = Pagination.getPageInfo(searchedCount, Integer.parseInt(map.get("currentPage")), 3, 3);
+		
+		RowBounds rb = new RowBounds((pi.getCurrentPage()-1) * 3, 3);
+		List<BoardDTO> boards = boardMapper.selectSearchList(map, rb);
+		
+		Map<String, Object> returnValue = new HashMap();
+		returnValue.put("boards", boards);
+		returnValue.put("pageInfo", pi);
+		return returnValue;
+	}
+	
 
 }

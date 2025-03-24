@@ -99,7 +99,7 @@
                 </thead>
                 <tbody>
                     	<c:choose>
-                		<c:when test="${ not empty board.replyList }"">
+                		<c:when test="${ not empty board.replyList }">
                 			<c:forEach items="${board.replyList }">
                     <tr>                      
                         <td>${reply.replyRriter }</td>
