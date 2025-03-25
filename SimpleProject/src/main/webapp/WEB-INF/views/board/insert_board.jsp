@@ -37,7 +37,7 @@
 </head>
 <body>
         
-    <jsp:include page="../include/header.jsp" />
+     <jsp:include page="../include/header.jsp" />
 
     <div class="content">
         <br><br>
@@ -45,7 +45,7 @@
             <h2>게시글 작성하기</h2>
             <br>
 
-            <form id="enrollForm" method="post" action="boards" enctype="multipart/form-data"> <!-- multipart/form-data 필수  -->
+            <form id="enrollForm" method="post" action="boards" enctype="multipart/form-data">
                 <table align="center">
                     <tr>
                         <th><label for="title">제목</label></th>
@@ -53,7 +53,7 @@
                     </tr>
                     <tr>
                         <th><label for="writer">작성자</label></th>
-                        <td><input type="text" id="writer" class="form-control" value="${sessionScope.loginMember.memberId }" name="boardWriter" readonly></td>
+                        <td><input type="text" id="writer" class="form-control" value="${ sessionScope.loginMember.memberId }" name="boardWriter" readonly></td>
                     </tr>
                     <tr>
                         <th><label for="upfile">첨부파일</label></th>
@@ -66,47 +66,45 @@
                     <tr>
                         <th colspan="2">
                             <div id="img-area">
-                                <img src="https://t1.kakaocdn.net/friends/www/talk/kakaofriends_talk_2018.png" alt="">
+                                <img src="https://th.bing.com/th/id/OIF.FZkwPw46VGfYc6MAz1mV9A?rs=1&pid=ImgDetMain" alt="">
                             </div>
                         </th>
                     </tr>
                 </table>
                 <br>
-				
-				<script>
-					function changeImage(file){
-						//console.log(file);
-						//console.log(file.files);
-						// files : 선택된 파일의 정보가 들어있는 객체
+                
+                <script>
+                	function changeImage(file){
 						
-						// file.files.length == 1 파일 파일선택됨
-						// file.files.length == 2 파일 선택취소됨
-						
-						// 파일이 첨부되었을 경우에는 file.files
-						// 0번 속성을 보면 파일 정보를 확인할 수 있음						
-						//console.log(file.files[0]);
-						
-						// falsy한 값 === 0, 0.0, uderfined
-						const imgEl = document.querySelector('#img-area>img');
-						if(file.files.length){ // 파일이 첨부
-							const reader = new FileReader();
-							reader.readAsDataURL(file.files[0]);
-							
-							reader.onload = function(e){
-								
+                		//console.log(file);
+                		
+                		// console.log(file.files);
+                		// files : 선택된 파일의 정보가 들어있는 객체
+                		
+                		// file.files.length == 1 파일선택됨
+                		// file.files.length == 0 선택취소함
+                		
+                		// 파일이 첨부되었을 경우에는 file.files
+                		// 0번속성을 보면 파일 정보를 확인할 수 있음
+                		// console.log(file.files[0]);
+                		const imgEl = document.querySelector('#img-area>img');
+                		if(file.files.length){ // 파일이 첨부
+                			
+                			const reader = new FileReader();
+                			reader.readAsDataURL(file.files[0]);
+                			
+                			reader.onload = function(e){
 								//console.log(e.target.result);
 								const url = e.target.result;
 								imgEl.src = url;
-							}
-						} else {
-							const img = "https://th.bing.com/th/id/OIF.FZkwPw46VGfYc6MAz1mV9A?rs=1&pid=ImgDetMain";
-							imgEl.src = img;
-						}
-					}
-				
-				
-				</script>
-				
+                			}
+                		} else {
+                			const img = 'https://th.bing.com/th/id/OIF.FZkwPw46VGfYc6MAz1mV9A?rs=1&pid=ImgDetMain';
+                			imgEl.src = img;
+                		}
+                	}
+                </script>
+
                 <div align="center">
                     <button type="submit" class="btn btn-primary">등록하기</button>
                     <button type="reset" class="btn btn-danger">취소하기</button>

@@ -80,6 +80,7 @@
   	 	<result column="boardContent" property="boardContent"/>
   	 	<result column="boardWriter" property="boardWriter"/>
   	 	<result column="changeName" property="changeName"/>
+  	 	<result column="boardCreateDate" property="createDate"/>
   	 	<collection property="replyList" ofType="com.kh.spring.reply.model.dto.ReplyDTO">
   	 		<id column="replyNo" property="replyNo"/>
   	 		<result column="replyWriter" property="replyWriter"/>
@@ -94,14 +95,15 @@
 		  BOARD_NO boardNo
 		, BOARD_TITLE boardTitle
 		, BOARD_CONTENT boardContent
-		, BOARD_WRITER baordWriter
+		, BOARD_WRITER boardWriter
 		, TB_SPRING_BOARD.CREATE_DATE boardCreateDate
+		, CREATE_DATE createDate
 		, CHANGE_NAME changeName
 		, REPLY_NO replyNo
 		, REPLY_WRITER replyWriter
 		, REPLY_CONTENT replyContent
 		, REF_BOARD_NO refBoardNo
-		, TB_REPLY.REPLY_DATE replyCreateDate
+		, CREATE_DATE createDate
 	FROM
 		  TB_SPRING_BOARD 
 	LEFT	  
@@ -160,7 +162,20 @@
   	        
   </select>
   
+  <insert id ="insertReply" parameterType="com.kh.spring.reply.model.dto.ReplyDTO">
+  	 INSERT
+  	   INTO
+  	   		TB_REPLY
+  	 VALUES
+  			(
+  			SEQ_RNO.NEXTVAL
+  		  , #{replyWriter}
+  		  , #{replyContent}
+  		  , SYSDATE
+  		  , #{refBoardNo}	
+  			)
   
+  </insert>
   
   
   

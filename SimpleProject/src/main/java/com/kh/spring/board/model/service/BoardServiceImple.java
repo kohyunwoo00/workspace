@@ -159,5 +159,12 @@ public class BoardServiceImple implements BoardService{
 		return returnValue;
 	}
 	
+	public int insertReply(ReplyDTO reply, HttpSession session) {
+		String memberId = ((MemberDTO)session.getAttribute("loginMember")).getMemberId();
+		
+		reply.setReplyWriter(memberId);
+		log.info("{}",reply);
+		return boardMapper.insertReply(reply);
+	}
 
 }

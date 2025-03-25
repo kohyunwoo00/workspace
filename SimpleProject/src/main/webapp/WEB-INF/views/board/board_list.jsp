@@ -43,15 +43,15 @@
 </head>
 <body>
     
-    <jsp:include page="../include/header.jsp" />
-    
+     <jsp:include page="../include/header.jsp" />
+	
     <div class="content">
-    
+
         <br><br>
         <div class="innerOuter" style="padding:5% 10%;">
             <h2>게시판</h2>
             <br>
-            	<c:if test="${not empty sessionScope.loginMember }">
+            	<c:if test="${ not empty sessionScope.loginMember }">
 	            <!-- 로그인 후 상태일 경우만 보여지는 글쓰기 버튼 -->
 	            <a class="btn btn-secondary" style="float:right;" href="form.bo">글쓰기</a>
 	            </c:if>
@@ -69,63 +69,68 @@
                     </tr>
                 </thead>
                 <tbody>
-                	
-                	<script>
-                		function goBoard(num){
-                			location.href = `boards/\${num}`;
-                		}
-                	
-                	</script>
                 
+                	<script>
+						function goBoard(num){
+							location.href = `boards/\${num}`;
+						}                	
+                	</script>
                 	<c:choose>
-                	  <c:when test="${ not empty map.boards }">
-                	  		<c:forEach var="board" items="${ map.boards }">
-	               			<tr onclick="goBoard(${board.boardNo });">
-		                        <td>${board.boardNo }</td>
-		                        <td>${board.boardTitle }</td>
-		                        <td>${board.boardWriter }</td>
-		                        <td>${board.count }</td>
-		                        <td>${board.createDate }</td>
-		                        <td>
-		                        	<c:if test="${not empty board.changeName }">
-		                        		띠~~용💌
-		                        	</c:if>
-		                        </td>
-		                    </tr>
-		                    </c:forEach> 
-	                   </c:when> 
-	                   <c:otherwise>
-	                   
-	                   		<tr>               		
-	                   			<th colspan ="6">게시글이 존재하지 않습니다</th>
-	                   		</tr>
-	                   
-	                   </c:otherwise>
-                    </c:choose>           
+                		<c:when test="${ not empty map.boards }">
+                			<c:forEach var="board" items="${ map.boards }">
+			                    <tr onclick="goBoard(${ board.boardNo });">
+			                        <td>${ board.boardNo }</td>
+			                        <td>${ board.boardTitle }</td>
+			                        <td>${ board.boardWriter }</td>
+			                        <td>${ board.count }</td>
+			                        <td>${ board.createDate }</td>
+			                        <td>
+			                        	<c:if test="${ not empty board.changeName }">
+			                        		띠용~~ 💌
+			                        	</c:if>
+			                        </td>
+			                    </tr>
+		                    </c:forEach>
+	                    </c:when>
+	                    <c:otherwise>
+	                    	<tr>
+								<th colspan="6">게시글이 존재하지 않습니다.</th>	                    	
+	                    	</tr>
+	                    </c:otherwise>
+					</c:choose>                    
+                    
                 </tbody>
             </table>
             <br>
 
             <div id="pagingArea">
                 <ul class="pagination">
+                
                     <li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
-                    
-                    <c:forEach begin="${map.pageInfo.startPage }" end="${ map.pageInfo.endPage }" var="num">                    
-	                    <li class="page-item">
-	                    	<c:choose>
-	                    	<c:when test="${empty map.condition }">
-		                    	<a class="page-link" href="${num }">${num }</a>
-		                    </c:when>
-		                    <c:otherwise>	
-		                    	<!-- 검색 게시글 목록 조회 요청 -->
-		                    	<a class="page-link" href="search?page=${num}&condition=${map.condition}&keyword=${map.keyword}">
-		                        ${num }</a>
-	                    	</c:otherwise>	
-	                    	</c:choose>
-	                    </li>
+
+					<c:forEach begin="${ map.pageInfo.startPage }" 
+							   end="${ map.pageInfo.endPage }" 
+							   var="num">
+							   
+                    	<li class="page-item">
+                    	
+                    		<c:choose>
+                    			<c:when test="${ empty map.condition }">
+									<!-- 일반 게시글 목록 조회 요청 -->
+		                    		<a class="page-link" href="boards?page=${ num }">${ num }</a>
+                    			</c:when>
+                    			<c:otherwise>
+		                    		<!-- 검색 게시글 목록 조회 요청 -->
+		                    		<a class="page-link" href="search?page=${ num }&condition=${ map.condition }&keyword=${ map.keyword }">
+		                    		${ num }</a>
+                    			</c:otherwise>
+                    		</c:choose>	
+                    	</li>
+                    	
 					</c:forEach>
-					
+                    
                     <li class="page-item"><a class="page-link" href="#">다음</a></li>
+                    
                 </ul>
             </div>
 
@@ -140,7 +145,7 @@
                     </select>
                 </div>
                 <div class="text">
-                    <input type="text" class="form-control" name="keyword" value="${map.keyword }">
+                    <input type="text" class="form-control" name="keyword" value="${ map.keyword }">
                 </div>
                 <button type="submit" class="searchBtn btn btn-secondary">검색</button>
             </form>
@@ -148,19 +153,32 @@
         </div>
         <br><br>
     </div>
-
-	<script>
-	// 현재 자바스크립트 사용목적 == HTML요소 조작
-	// const selected = document.querySelector();
-		window.onload = function(){
-			const currentUrl = window.location.href;
-			const obj = new URL(currentUrl);
-			const keyword = obj.searchParams.get('keyword');
-			const selected = document.querySelector(option[value="\${condition}"]`);
-			selected.selected =true;
-		}
-	</script>
-
+    
+    
+    <script>
+    
+    	// 현재 자바스크립트 사용목적 == HTML요소 조작 
+    	// const selected = document.querySelector();
+    	
+    	window.onload = function(){
+    		
+    		const currentUrl = window.location.href;
+    		//console.log(currentUrl);
+    		const obj = new URL(currentUrl);
+    		//console.log(obj);
+    		const condition = obj.searchParams.get('condition');
+    		//console.log(`condition : \${condition}`);
+    		const selected = document.querySelector(`option[value="\${condition}"]`);
+    		selected.selected = true;
+    		//console.log(selected);
+ 		   	//console.log('${map.condition}');
+    	}
+    
+    </script>
+    
+    
+    
+    
 
     <jsp:include page="../include/footer.jsp" />
 
